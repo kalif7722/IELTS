@@ -5,32 +5,33 @@
   "max_seconds": 179,
   "scenes": [
     {
-      "title": "Stress: important content words",
-      "narration": "Step three: stress. Emphasise key content words, not every word. The purple highlights show phenomenon, bioluminescence, organisms, produce light, chemical reactions and illumination. These carry the main meaning. Make them slightly stronger while keeping the smaller connecting words light and natural."
+      "title": "Introduction — five-step Read Aloud formula",
+      "narration": "P T E Academic Read Aloud. Stop reading word by word. This lesson introduces a five-step formula: preview, chunk, stress, connect, and finish. Use these techniques together to build more natural fluency, clearer pronunciation, and better reading rhythm."
     },
     {
-      "title": "Chunk: meaningful phrases",
-      "narration": "Step two: chunk. Divide the long scientific sentence into meaningful phrases, as the coloured highlights show. Pause briefly between chunks, for example after bioluminescence, marine organisms, produce light, and chemical reactions. Read each chunk smoothly instead of stopping after every word."
+      "title": "Step 1 — Preview difficult words",
+      "narration": "Step one: preview. Before you begin speaking, identify difficult words in the sentence. Here, focus on bioluminescence, organisms, and illumination. Prepare their pronunciation in advance. The goal is to avoid hesitation when reading the full sentence aloud."
+    },
+    {
+      "title": "Step 2 — Chunk into phrases",
+      "narration": "Step two: chunk. Divide the scientific sentence into meaningful phrases. Follow the coloured highlights to see where each phrase begins and ends. Read each group smoothly, then pause briefly at a natural boundary. Don't stop after every individual word."
+    },
+    {
+      "title": "Step 3 — Stress content words",
+      "narration": "Step three: stress. Emphasise the words that carry the main meaning, rather than giving every word equal weight. Notice the highlighted content words, including phenomenon, bioluminescence, organisms, produce light, chemical reactions, and illumination. Keep the smaller linking words lighter."
+    },
+    {
+      "title": "Step 4 — Connect naturally",
+      "narration": "Step four: connect. Link words naturally within each phrase so your reading flows. The blue markings show words that belong together. Maintain smooth transitions between them and use a short pause only where it helps the meaning. Avoid robotic, word-by-word delivery."
+    },
+    {
+      "title": "Step 5 — Finish clearly",
+      "narration": "Step five: finish. Keep a steady pace through the final phrase. Don't rush, trail off, or drop the last words. The slide shows how to complete external source of illumination clearly. End with control and a natural cadence."
     },
     {
       "title": "Five scientific sentences for practice",
-      "narration": "Here are five difficult scientific sentences for practice. They introduce bioluminescence, nanotechnology, photosynthetic efficiency, neuroplasticity, and thermodynamic properties. Preview each sentence, identify unfamiliar words, then practise pronunciation, chunking and stress. Apply the same five-step method to all five examples."
-    },
-    {
-      "title": "Connect: natural flow",
-      "narration": "Step four: connect. Link words naturally instead of sounding robotic. The blue highlights show phrases that should flow together. Use smooth transitions within each phrase, then pause naturally where the meaning changes. Keep your speech clear, controlled and conversational."
-    },
-    {
-      "title": "Finish: controlled ending",
-      "narration": "Step five: finish. Maintain a steady pace all the way to the last word. Don't rush or trail off at the end. In this example, complete the final phrase, external source of illumination, clearly. Finish with control, not a sudden stop."
-    },
-    {
-      "title": "Preview: difficult words",
-      "narration": "Step one: preview. Scan the sentence before speaking and identify difficult words. Here, they are bioluminescence, organisms and illumination. Prepare their pronunciation, then begin reading. This quick check helps prevent hesitation and makes your delivery more confident."
-    },
-    {
-      "title": "The five-step formula",
-      "narration": "Here's the complete formula: stop reading word by word. Preview difficult words, chunk sentences into phrases, stress important content words, connect words naturally, and finish clearly at a steady pace. Practise these five steps together to improve your P T E Read Aloud fluency."
+      "narration": "Finally, practise the method with these five scientific sentences. They include challenging vocabulary from bioluminescence, nanotechnology, photosynthesis, neuroplasticity, and thermodynamics. For each sentence, preview unfamiliar words, find useful chunks, stress key terms, connect naturally, and finish clearly. Save this exercise for repeated practice."
     }
-  ]
+  ],
+  "visual_order_verified": "introduction, preview, chunk, stress, connect, finish, scientific practice"
 }
