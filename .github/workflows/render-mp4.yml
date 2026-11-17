@@ -1,0 +1,36 @@
+name: Render IELTS MP4 with Andrew US
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'inputs/*.mp4'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  narrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install rendering tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          pip install edge-tts
+      - name: Narrate original video with Andrew US
+        run: python render_mp4.py
+      - name: Upload narrated video and timing report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: IELTS-Table-Andrew-US
+          path: |
+            dist/IELTS-Table-Andrew-US-Synced.mp4
+            dist/render-manifest.json
+          if-no-files-found: warn
+          retention-days: 30
