@@ -1,69 +1,119 @@
-"""IELTS Winners — Andrew US Neural, scene-by-scene visual-first reel rendering."""
-import asyncio, json, math, subprocess
+"""Use the uploaded original GIF/PNG unchanged; add only Andrew US voice.
+
+For GIFs, frames and their ordering are preserved. Frame display durations are
+scaled uniformly when necessary to fit the narration. No new graphics, crops,
+zoom, overlays, or transitions are introduced.
+"""
+import asyncio
+import json
+import math
+import os
+import subprocess
+import tempfile
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageOps
-ROOT=Path(__file__).resolve().parent
-OUT=ROOT/"dist"
-VOICE="en-US-AndrewNeural"
-def command(cmd):
-    subprocess.run(cmd,check=True)
-def probe(path):
-    return float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(path)],text=True).strip())
-def compose(source,focus,index):
-    # Original slide remains fully visible throughout, with a soft focus outline.
-    with Image.open(source) as loaded:
-        im=Image.new("RGB",(1080,1920),"#fffdf6")
-        picture=ImageOps.contain(loaded.convert("RGB"),(1050,1850),Image.Resampling.LANCZOS)
-        ox=(1080-picture.width)//2; oy=(1920-picture.height)//2
-        im.paste(picture,(ox,oy))
-        y1=int(oy+focus[0]*picture.height)
-        y2=int(oy+focus[1]*picture.height)
-        d=ImageDraw.Draw(im,"RGBA")
-        if index:
-            d.rounded_rectangle((max(12,ox-6),max(12,y1-10),min(1068,ox+picture.width+6),min(1908,y2+10)),radius=18,outline=(226,110,29,230),width=8)
-        dest=OUT/f"scene-{index:02d}.png";im.save(dest)
-        return dest
-def demo(path):
-    # The demo is intentionally distinct from the user's original image.
-    im=Image.new("RGB",(750,1334),"#fffdf5");d=ImageDraw.Draw(im)
-    f="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-    def title(t,y,sz=28):d.text((375,y),t,font=ImageFont.truetype(f,sz),anchor="ma",fill="#19315b")
-    title("IELTS WINNERS",110,36);title("Examiner's Margin",230,42)
-    title("Household Expenditure",310,29)
-    for i,t in enumerate(["Canada   Japan   Mexico   Germany","Housing   28%   24%   20%   26%","Food        16%   18%   24%   17%","Transport   12%   10%   14%   12%","Others      14%   48%   42%   45%"]):
-        title(t,400+i*68,23)
-    title("A four-paragraph Task 1 report",840,29)
-    for i,t in enumerate(["Identify comparisons","Select key figures","Structure a report","Use useful vocabulary"]):title(t,945+i*75,27)
-    path.parent.mkdir(parents=True,exist_ok=True);im.save(path)
-async def speech(text,path):
+
+from PIL import Image, ImageSequence
+
+ROOT = Path(__file__).resolve().parent
+OUT = ROOT / "dist"
+VOICE = "en-US-AndrewNeural"
+FPS = 30
+
+def execute(args):
+    subprocess.run(args, check=True)
+
+def duration(path):
+    return float(subprocess.check_output([
+        "ffprobe", "-v", "error", "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1", str(path)
+    ], text=True).strip())
+
+def select_input():
+    folder = ROOT / "inputs"
+    supplied = sorted(p for p in folder.glob("*") if p.suffix.lower() in (".gif", ".png", ".webp"))
+    if not supplied:
+        raise FileNotFoundError(
+            "No original image/GIF found. Upload the unmodified file to inputs/. "
+            "A recreated placeholder is never used."
+        )
+    if len(supplied) != 1:
+        raise ValueError("Keep exactly one .gif, .png, or .webp file in inputs/ for this run.")
+    return supplied[0]
+
+def narration_text():
+    cfg = json.loads((ROOT / "examples" / "examiners-margin.json").read_text())
+    if "narration" in cfg:
+        return cfg["narration"]
+    # Existing per-scene script is also supported, but without visual edits.
+    return " ".join(x["narration"] for x in cfg["scenes"])
+
+async def synthesize(script, filename):
     import edge_tts
-    await edge_tts.Communicate(text,VOICE,rate="-5%").save(str(path))
-async def run():
+    await edge_tts.Communicate(script, VOICE, rate="-5%").save(str(filename))
+
+def make_video(source, soundtrack, target):
+    with tempfile.TemporaryDirectory(prefix="ielts-frames-") as tmp:
+        tmp = Path(tmp)
+        with Image.open(source) as im:
+            animated = getattr(im, "n_frames", 1) > 1
+            frames = []
+            durations = []
+            for i, frame in enumerate(ImageSequence.Iterator(im)):
+                rgba = frame.convert("RGBA")
+                # Preserve every pixel and original frame size. The codec is yuv420p,
+                # so slight compression is unavoidable, but no content changes.
+                composed = Image.new("RGBA", rgba.size, "white")
+                composed.alpha_composite(rgba)
+                filename = tmp / f"frame-{i:05d}.png"
+                composed.convert("RGB").save(filename)
+                frames.append(filename)
+                durations.append(max(20, int(frame.info.get("duration", im.info.get("duration", 100)))))
+        if not frames:
+            raise ValueError("Input image has no frames.")
+        # GIF displays have no soundtrack. Fit the entire existing animation once
+        # to the audio length while preserving relative frame timings.
+        audio_length = duration(soundtrack)
+        target_length = audio_length + 0.6
+        source_seconds = sum(durations) / 1000
+        scale = target_length / source_seconds
+        manifest = tmp / "frames.txt"
+        with manifest.open("w") as fp:
+            for name, ms in zip(frames, durations):
+                fp.write(f"file '{name.as_posix()}'\\n")
+                fp.write(f"duration {ms / 1000 * scale:.6f}\\n")
+            # concat demuxer requires repeating the final frame for its duration
+            fp.write(f"file '{frames[-1].as_posix()}'\\n")
+        execute([
+            "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+            "-safe", "0", "-f", "concat", "-i", str(manifest),
+            "-i", str(soundtrack), "-filter:v",
+            "fps=30,format=yuv420p", "-af", "apad",
+            "-t", str(target_length), "-c:v", "libx264", "-crf", "18",
+            "-preset", "veryfast", "-c:a", "aac", "-b:a", "160k",
+            "-movflags", "+faststart", str(target)
+        ])
+        return {
+            "source": str(source.relative_to(ROOT)),
+            "frame_count": len(frames),
+            "animated_input": animated,
+            "original_animation_seconds": source_seconds,
+            "narrated_seconds": duration(target),
+            "duration_scale": scale,
+            "voice": VOICE,
+            "alterations": "None; frame timing scaled uniformly to fit narration",
+        }
+
+async def main():
     OUT.mkdir(exist_ok=True)
-    data=json.loads((ROOT/"examples/examiners-margin.json").read_text())
-    original=ROOT/"inputs/examiners-margin.png"
-    if original.exists():
-        source=original
-    else:
-        source=ROOT/"inputs/demo-preview.png";demo(source)
-        print("WARNING: Original PNG not found. Rendering preview artwork. Upload inputs/examiners-margin.png for final version.")
-    segments=[]
-    for i,scene in enumerate(data["scenes"]):
-        audio=OUT/f"voice-{i:02d}.mp3"
-        await speech(scene["narration"],audio)
-        if not audio.exists() or audio.stat().st_size < 1000:
-            raise RuntimeError(f"Andrew US narration missing for scene {i}")
-        dur=probe(audio)+float(scene.get("pause",0.45))
-        visual=compose(source,scene["focus"],i)
-        output=OUT/f"segment-{i:02d}.mp4"
-        frames=math.ceil(dur*24)
-        # Every segment is paced by the actual synthesized spoken duration.
-        command(["ffmpeg","-hide_banner","-loglevel","error","-y","-loop","1","-framerate","24","-i",str(visual),"-i",str(audio),"-vf","zoompan=z='min(zoom+0.00007,1.035)':d=1:s=1080x1920:fps=24,format=yuv420p","-frames:v",str(frames),"-af","apad","-t",str(frames/24),"-c:v","libx264","-preset","veryfast","-crf","24","-r","24","-c:a","aac","-b:a","160k","-ar","44100","-ac","2",str(output)])
-        segments.append(output)
-    manifest=OUT/"concat.txt"
-    manifest.write_text("".join("file '"+str(p.resolve()).replace("'","")+"'\n" for p in segments))
-    final=OUT/"IELTS-Examiners-Margin-Andrew-US.mp4"
-    command(["ffmpeg","-hide_banner","-loglevel","error","-y","-f","concat","-safe","0","-i",str(manifest),"-c","copy","-movflags","+faststart",str(final)])
-    (OUT/"render-manifest.json").write_text(json.dumps({"voice":VOICE,"original_slide":source==original,"scenes":len(segments),"seconds":probe(final),"output":final.name},indent=2))
-    print("SUCCESS",final,"seconds",probe(final),"original artwork used:",source==original)
-if __name__=="__main__":asyncio.run(run())
+    source = select_input()
+    audio = OUT / "andrew-us.mp3"
+    await synthesize(narration_text(), audio)
+    if not audio.exists() or audio.stat().st_size < 1000:
+        raise RuntimeError("Andrew US audio generation failed. No substitute voice used.")
+    movie = OUT / "IELTS-Original-GIF-Andrew-US.mp4"
+    info = make_video(source, audio, movie)
+    (OUT / "render-manifest.json").write_text(json.dumps(info, indent=2))
+    print("SUCCESS:", movie, json.dumps(info))
+
+if __name__ == "__main__":
+    asyncio.run(main())
