@@ -1,26 +1,26 @@
 {
-  "source": "WhatsApp Video 2026-11-17 at 2.39.16 PM(2)(1).mp4",
-  "source_visual_order": "introduction, Step 1, Step 2, Step 3, Steps 4–7",
+  "source": "inputs/WhatsApp Video 2026-11-17 at 2.39.16 PM(2).mp4",
+  "source_sha256": "fa3a6efcc85af8a7f184236eb47ac84302fcbfe3f7b5e38be5e801ee419dd035",
   "scenes": [
     {
-      "title": "Slide 1 — Examiner's Margin: household expenditure",
-      "narration": "Welcome to IELTS Winners, Examiner's Margin. This lesson shows how to analyse and describe a household expenditure table in IELTS Academic Writing Task One. The table compares Canada, Japan, Mexico and Germany, across housing, food, transport and other spending. You'll learn to spot key comparisons, write an overview without detailed data, structure a four-paragraph answer, and use useful percentage vocabulary. Let's begin."
+      "title": "Examiner's Margin — lesson overview",
+      "narration": "Welcome to IELTS Winners. This lesson shows how to describe a household expenditure table in IELTS Academic Writing Task One. We compare Canada, Japan, Mexico, and Germany across housing, food, transport, and others. You'll identify key comparisons, write an effective overview, and structure a four-paragraph Band Eight response."
     },
     {
-      "title": "Slide 2 — Step 1: Analyse the Table",
-      "narration": "Step one: analyse the table. The highest figure is forty-eight percent for Others in Japan, while the lowest is ten percent for transport, also in Japan. Canada has the highest housing share, twenty-eight percent, and Mexico has the highest food share, twenty-four percent. Others dominates spending in Japan, Mexico and Germany, while transport varies the least, from ten to fourteen percent. Remember the E R C S shortcut: extremes, rankings, comparisons and spread. These help you select the right figures."
+      "title": "Step 1 — Analyse the table",
+      "narration": "Step one: analyse the table using E R C S. Find extremes, rankings, comparisons, and spread. Japan records the highest overall figure: forty-eight percent for Others, but the lowest transport share at ten percent. Canada leads housing with twenty-eight percent, while Mexico leads food with twenty-four percent. Transport varies least."
     },
     {
-      "title": "Slide 3 — Step 2: Four-Paragraph Response",
-      "narration": "Step two: build the four-paragraph response. The introduction paraphrases the task. The overview states the main trends without figures. Body paragraph one compares housing and food. Body paragraph two compares transport and others. Notice the model answer: housing is highest in Canada at twenty-eight percent, while Mexico leads food at twenty-four percent. Japan has the lowest transport figure at ten percent, but the highest Others figure at forty-eight percent. The main lesson is to group figures logically and support comparisons with accurate data."
+      "title": "Step 2 — Four-paragraph response",
+      "narration": "Step two: write four paragraphs. Paraphrase the task, then give an overview without figures. Use body paragraph one to compare housing and food, and paragraph two for transport and others. Notice the model answer groups related figures and supports each comparison. The overview highlights patterns; the body paragraphs provide evidence."
     },
     {
-      "title": "Slide 4 — Step 3: Language Toolkit",
-      "narration": "Step three: use the language toolkit. Forty-eight percent is nearly half. Twenty-eight percent is slightly over a quarter. Twenty-four percent is almost a quarter, twenty percent is one fifth, and ten percent is one tenth. Instead of repeating show or spend, try account for, represent, or make up. Use whereas and in contrast for differences, and similarly or likewise for similarities. In the overview, avoid numbers and describe patterns. Choose just a few natural connectors and percentage expressions, rather than forcing every phrase into the answer."
+      "title": "Step 3 — Language toolkit",
+      "narration": "Step three: upgrade your language. Forty-eight percent is nearly half; twenty-eight percent is slightly over a quarter; twenty-four percent is almost a quarter; twenty percent is one fifth; and ten percent is one tenth. Try account for, represent, and make up. Connect comparisons with whereas, in contrast, and similarly."
     },
     {
-      "title": "Slide 5 — Steps 4 to 7: Grouping and Strategy",
-      "narration": "Now apply the remaining steps. Step four: group the data. Compare housing and food in one body paragraph, then transport and others in the second. Step five: upgrade your language. Instead of saying, housing was twenty-eight percent in Canada, say, housing accounted for the largest share in Canada, at twenty-eight percent. Step six: avoid listing every figure, repeating the introduction in the overview, or comparing without evidence. Step seven: follow the complete strategy: introduction, overview, two grouped detail paragraphs. Analyse, group, compare, and use strong language."
+      "title": "Steps 4–7 — Group and refine",
+      "narration": "Steps four to seven bring everything together. Group housing with food, then transport with others. Upgrade basic sentences: housing accounted for the largest share in Canada, at twenty-eight percent. Avoid listing every figure, repeating the introduction, or comparing without evidence. Finish with an introduction, overview, and two grouped detail paragraphs. Analyse, group, compare."
     }
   ]
 }
