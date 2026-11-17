@@ -1,0 +1,36 @@
+{
+  "voice": "en-US-AndrewNeural",
+  "source": "inputs/PTE-Read-Aloud-7-Slides.mp4",
+  "output": "dist/PTE-Read-Aloud-Andrew-US.mp4",
+  "max_seconds": 179,
+  "scenes": [
+    {
+      "title": "Stress: important content words",
+      "narration": "This slide teaches step three: stress. Emphasise the words that carry the main meaning, not every word equally. In the example, notice the highlighted phrases: phenomenon of bioluminescence, organisms, produce light, chemical reactions, and illumination. Give these words slightly stronger emphasis, while keeping the connecting words lighter and natural."
+    },
+    {
+      "title": "Chunk: meaningful phrases",
+      "narration": "Step two is chunking. Rather than reading this scientific sentence word by word, follow the coloured groups. Pause briefly at each phrase boundary: the phenomenon of bioluminescence; observed in certain marine organisms; enables them to produce light; through chemical reactions; without relying on an external source; of illumination. Keep the phrases connected and your rhythm smooth."
+    },
+    {
+      "title": "Five scientific sentences for practice",
+      "narration": "Here are five difficult scientific sentences to practise. They cover bioluminescence, nanotechnology, photosynthetic efficiency, neuroplasticity, and thermodynamic properties. Before you speak, identify unfamiliar scientific words and notice meaningful phrases. Read each sentence with clear pronunciation, appropriate stress, and smooth pauses. You can practise the five-step method with every example on this slide."
+    },
+    {
+      "title": "Connect: natural flow",
+      "narration": "Step four: connect. The goal is natural, flowing speech, not a robotic pause after every word. Follow the blue highlighted phrases in the example. Link words smoothly within each phrase, then use a short natural pause where the meaning changes. Aim for a conversational rhythm while keeping every word clear."
+    },
+    {
+      "title": "Finish: controlled ending",
+      "narration": "Step five: finish. Maintain a steady pace right to the end of the sentence. Don't rush the final words, and don't let your voice stop abruptly. Read the complete example smoothly, giving the last phrase, external source of illumination, a clear and controlled ending. Your final words matter just as much as your first."
+    },
+    {
+      "title": "Preview: difficult words",
+      "narration": "Step one: preview. Before reading aloud, scan the sentence for challenging words. Here, the highlighted words are bioluminescence, organisms, and illumination. Prepare their pronunciation before you start speaking. A quick preview reduces hesitation and helps you deliver the whole sentence more confidently."
+    },
+    {
+      "title": "The five-step formula",
+      "narration": "The main takeaway is to stop reading word by word. Remember this five-step formula: preview difficult words; chunk long sentences into meaningful phrases; stress key content words; connect words naturally; and finish each sentence at a steady pace. Practise all five steps together to improve your P T E Read Aloud fluency and pronunciation."
+    }
+  ]
+}
