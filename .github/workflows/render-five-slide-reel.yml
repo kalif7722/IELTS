@@ -4,7 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'inputs/IELTS-5-slide-original.mp4'
+      - 'inputs/WhatsApp Video 2026-11-17 at 2.39.16 PM(2).mp4'
+      - 'render_five_slide_mp4.py'
+      - 'examples/ielts-five-slide-voice.json'
+      - '.github/workflows/render-five-slide-reel.yml'
 permissions:
   contents: read
 jobs:
