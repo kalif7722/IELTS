@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'inputs/*.mp4'
+      - 'inputs/IELTS_Task1_Table_Narrated_Reel.mp4'
   workflow_dispatch:
 permissions:
   contents: read
