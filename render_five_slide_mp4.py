@@ -6,8 +6,20 @@ def cmd(args): subprocess.run(args,check=True)
 def info(path): return json.loads(subprocess.check_output(["ffprobe","-v","error","-show_format","-show_streams","-of","json",str(path)],text=True))
 async def say(words,out):
     import edge_tts
-    await edge_tts.Communicate(words,"en-US-AndrewNeural",rate="-4%").save(str(out))
-    if not out.is_file() or out.stat().st_size < 1000: raise RuntimeError("Andrew US audio missing")
+    # The unofficial service occasionally answers without audio on GitHub.
+    # Retrying the SAME voice is safe; never substitute another narrator.
+    for attempt in range(1, 6):
+        try:
+            out.unlink(missing_ok=True)
+            await edge_tts.Communicate(words,"en-US-AndrewNeural",rate="-4%").save(str(out))
+            if out.is_file() and out.stat().st_size >= 1000:
+                return
+            raise RuntimeError("Andrew US returned no audio")
+        except Exception as exc:
+            if attempt == 5:
+                raise RuntimeError("Andrew US synthesis failed after five attempts") from exc
+            print(f"Andrew US attempt {attempt} failed: {exc}; retrying",flush=True)
+            await asyncio.sleep(attempt * 6)
 async def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--source",default="inputs/WhatsApp Video 2026-11-17 at 2.39.16 PM(2).mp4")
