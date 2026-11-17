@@ -47,6 +47,16 @@ async def main():
                "-i", str(source), "-vsync", "0", str(tmp / "source-%03d.png"))
         frames = sorted(tmp.glob("source-*.png"))
         scenes = cfg["scenes"]
+        expected_titles = (
+            "Introduction", "Step 1", "Step 2", "Step 3",
+            "Step 4", "Step 5", "Five scientific sentences",
+        )
+        actual_titles = tuple(scene["title"] for scene in scenes)
+        if any(not title.startswith(label) for title, label in zip(actual_titles, expected_titles)):
+            raise RuntimeError(
+                "PTE narration order does not match approved original frame order: "
+                + repr(actual_titles)
+            )
         if len(frames) != len(scenes):
             raise RuntimeError(f"Expected {len(scenes)} source slides; found {len(frames)}")
         print(f"Validated {len(frames)} original source frames in unchanged sequence", flush=True)
