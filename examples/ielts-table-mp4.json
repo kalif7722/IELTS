@@ -1,0 +1,103 @@
+{
+  "voice": "en-US-AndrewNeural",
+  "input": "inputs/IELTS_Task1_Table_Narrated_Reel.mp4",
+  "source_duration": 109.46,
+  "scenes": [
+    {
+      "start": 0,
+      "end": 5.5,
+      "title": "Introduction",
+      "narration": "Welcome to IELTS Winners. In this lesson, you'll learn how to describe a table in IELTS Academic Writing Task One and build a strong, Band Nine style report, step by step."
+    },
+    {
+      "start": 5.5,
+      "end": 13,
+      "title": "The question",
+      "narration": "Here is the question. The table presents household spending across four categories in four countries in 2024. Your task is to summarise the main features and make relevant comparisons, not describe every number."
+    },
+    {
+      "start": 13,
+      "end": 21.75,
+      "title": "The table",
+      "narration": "Let's read the table. The countries are the UK, USA, Canada and Australia. Spending is divided into housing, food, transport and others. All values are percentages of total household expenditure."
+    },
+    {
+      "start": 21.75,
+      "end": 28.5,
+      "title": "Identify key features",
+      "narration": "First, identify the highest and lowest figures. Then look for major similarities, differences and the overall spending pattern. These observations will shape your overview."
+    },
+    {
+      "start": 28.5,
+      "end": 35.25,
+      "title": "Key observations",
+      "narration": "Notice that the Others category takes the largest share in all four countries, reaching forty-one percent in Canada. Food is the smallest category in the USA, at just twelve percent."
+    },
+    {
+      "start": 35.25,
+      "end": 42.25,
+      "title": "Four paragraph structure",
+      "narration": "Use four paragraphs: an introduction that paraphrases the question, an overview of the main patterns, a first details paragraph comparing Others and Housing, and a second details paragraph comparing Transport and Food."
+    },
+    {
+      "start": 42.25,
+      "end": 48,
+      "title": "Sample answer introduction and overview",
+      "narration": "Here is the concise sample answer. It begins by identifying the table, then explains that Others has the largest share in every country, while food makes up the smallest proportion, especially in the USA."
+    },
+    {
+      "start": 48,
+      "end": 56.5,
+      "title": "Sample answer details",
+      "narration": "Now examine the details. Others ranges from thirty-seven percent in the USA to forty-one percent in Canada. Housing accounts for around twenty-seven to thirty percent. Transport stands at eighteen to twenty-one percent, while food ranges from twelve to fourteen percent."
+    },
+    {
+      "start": 56.5,
+      "end": 62.5,
+      "title": "Paragraph 1",
+      "narration": "Paragraph one is the introduction. Paraphrase the question clearly: The table compares the proportion of household spending on four categories in four countries in 2024."
+    },
+    {
+      "start": 62.5,
+      "end": 68.5,
+      "title": "Paragraph 2",
+      "narration": "Paragraph two provides the overview. Overall, households spent the largest share on Others in all four countries, whereas food accounted for the smallest proportion."
+    },
+    {
+      "start": 68.5,
+      "end": 75.25,
+      "title": "Paragraph 3",
+      "narration": "Paragraph three adds key comparisons. Spending on Others ranged from thirty-seven percent in the USA to forty-one percent in Canada. Housing accounted for around twenty-seven to thirty percent, highest in the USA."
+    },
+    {
+      "start": 75.25,
+      "end": 82.75,
+      "title": "Paragraph 4",
+      "narration": "Paragraph four covers the remaining categories. Transport took a similar share, at eighteen to twenty-one percent, while food made up the lowest proportions, from twelve percent in the USA to fourteen percent in the UK and Australia."
+    },
+    {
+      "start": 82.75,
+      "end": 90.25,
+      "title": "Useful vocabulary",
+      "narration": "Use natural comparison vocabulary: account for, make up, the largest share, the smallest proportion, range from one figure to another, a similar share, and in contrast."
+    },
+    {
+      "start": 90.25,
+      "end": 96.5,
+      "title": "Band 9 phrases",
+      "narration": "These phrases help organise the response: Overall; in detail; ranged from; accounted for; the highest figure; and the lowest proportion. Use them where they fit naturally."
+    },
+    {
+      "start": 96.5,
+      "end": 103.5,
+      "title": "Remember",
+      "narration": "Remember to paraphrase the question, give a clear overview with two or three main points, use accurate data and comparisons, and keep your report objective. Avoid personal opinions."
+    },
+    {
+      "start": 103.5,
+      "end": 109.46,
+      "title": "Closing",
+      "narration": "The key to a high-scoring Task One report is to focus on the main features and make clear, relevant comparisons. That's your IELTS Winners table-writing strategy."
+    }
+  ]
+}
