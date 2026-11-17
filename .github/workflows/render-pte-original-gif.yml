@@ -1,0 +1,35 @@
+name: Render PTE Original GIF — Andrew US
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'inputs/pte read aloud.zip'
+permissions:
+  contents: read
+jobs:
+  narrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Andrew US synthesis and FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install edge-tts pillow
+      - name: Verify source GIF and render PTE narration
+        run: python render_pte_gif_original.py
+      - name: Publish video and timing report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PTE-Original-GIF-Andrew-US
+          path: |
+            dist/PTE-Read-Aloud-Original-GIF-Andrew-US.mp4
+            dist/pte-original-gif-manifest.json
+          if-no-files-found: warn
+          retention-days: 30
