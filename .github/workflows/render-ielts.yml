@@ -1,0 +1,41 @@
+name: Render IELTS Andrew US Reel
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'renderer.py'
+      - 'requirements.txt'
+      - 'examples/**'
+      - 'inputs/**'
+      - '.github/workflows/render-ielts.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Render Andrew US narrated reel
+        run: python renderer.py
+      - name: Publish playable MP4 and narration
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ielts-andrew-us-reel
+          path: |
+            dist/*.mp4
+            dist/*.mp3
+            dist/render-manifest.json
+          if-no-files-found: warn
+          retention-days: 30
