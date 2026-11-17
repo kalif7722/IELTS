@@ -1,0 +1,35 @@
+name: Render High-Quality IELTS Table GIF with Andrew US
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'inputs/IELTS table.zip'
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install FFmpeg, Pillow and Andrew US synthesis
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install edge-tts pillow
+      - name: Render from verified original GIF
+        run: python render_ielts_gif_original.py
+      - name: Upload high-quality Reel and timing report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: IELTS-Table-High-Quality-Andrew-US
+          path: |
+            dist/IELTS-Table-Original-GIF-Andrew-US.mp4
+            dist/ielts-table-gif-manifest.json
+          if-no-files-found: warn
+          retention-days: 30
