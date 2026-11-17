@@ -3,11 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'renderer.py'
-      - 'requirements.txt'
-      - 'examples/**'
       - 'inputs/**'
-      - '.github/workflows/render-ielts.yml'
   workflow_dispatch:
 permissions:
   contents: read
