@@ -79,10 +79,10 @@ def make_video(source, soundtrack, target):
         manifest = tmp / "frames.txt"
         with manifest.open("w") as fp:
             for name, ms in zip(frames, durations):
-                fp.write(f"file '{name.as_posix()}'\\n")
-                fp.write(f"duration {ms / 1000 * scale:.6f}\\n")
+                fp.write(f"file '{name.as_posix()}'\n")
+                fp.write(f"duration {ms / 1000 * scale:.6f}\n")
             # concat demuxer requires repeating the final frame for its duration
-            fp.write(f"file '{frames[-1].as_posix()}'\\n")
+            fp.write(f"file '{frames[-1].as_posix()}'\n")
         execute([
             "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
             "-safe", "0", "-f", "concat", "-i", str(manifest),
