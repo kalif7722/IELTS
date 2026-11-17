@@ -16,3 +16,10 @@ Go to **Actions → Render IELTS Andrew US Reel → Run workflow**, or push the 
 GIF frames and transitions are preserved. The duration of each original frame is scaled **proportionally** to make the full GIF last as long as the narration. This changes playback speed but not frame content, order or animation. No other edits are made. If exact original timing is required instead, narration must be written to fit the existing GIF duration.
 
 The voice synthesis service is an unofficial Edge TTS endpoint and can occasionally fail. No substitute voice will be used.
+
+
+## IELTS Table MP4 — Andrew US narration
+
+The original 109.46-second **IELTS Task 1 Table** MP4 can be narrated via `.github/workflows/render-mp4.yml`. Upload the original file as **`inputs/IELTS_Task1_Table_Narrated_Reel.mp4`**. The workflow triggers on upload and produces `IELTS-Table-Andrew-US-Synced.mp4` under the `IELTS-Table-Andrew-US` artifact.
+
+A detailed 16-slide map with source transition timestamps and narration text is in `examples/ielts-table-mp4.json`. The `render_mp4.py` script synthesizes one Andrew US voice segment per original slide and adjusts each corresponding original video interval's playback timing to the spoken length, without adding visual layers or transition effects. An action run without the source MP4 will fail visibly; it never renders a substitute.
