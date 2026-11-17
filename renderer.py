@@ -1,67 +1,69 @@
-"""Narrated IELTS reel using Microsoft Andrew US Neural."""
-import argparse, asyncio, json, subprocess
+"""IELTS Winners — Andrew US Neural, scene-by-scene visual-first reel rendering."""
+import asyncio, json, math, subprocess
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-ROOT=Path(__file__).parent.resolve()
-
+ROOT=Path(__file__).resolve().parent
+OUT=ROOT/"dist"
+VOICE="en-US-AndrewNeural"
+def command(cmd):
+    subprocess.run(cmd,check=True)
+def probe(path):
+    return float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(path)],text=True).strip())
+def compose(source,focus,index):
+    # Original slide remains fully visible throughout, with a soft focus outline.
+    with Image.open(source) as loaded:
+        im=Image.new("RGB",(1080,1920),"#fffdf6")
+        picture=ImageOps.contain(loaded.convert("RGB"),(1050,1850),Image.Resampling.LANCZOS)
+        ox=(1080-picture.width)//2; oy=(1920-picture.height)//2
+        im.paste(picture,(ox,oy))
+        y1=int(oy+focus[0]*picture.height)
+        y2=int(oy+focus[1]*picture.height)
+        d=ImageDraw.Draw(im,"RGBA")
+        if index:
+            d.rounded_rectangle((max(12,ox-6),max(12,y1-10),min(1068,ox+picture.width+6),min(1908,y2+10)),radius=18,outline=(226,110,29,230),width=8)
+        dest=OUT/f"scene-{index:02d}.png";im.save(dest)
+        return dest
 def demo(path):
-    """Generate a clearly labeled placeholder, NOT the original user artwork."""
-    im=Image.new("RGB",(1080,1920),"#fffdf6")
-    d=ImageDraw.Draw(im)
-    f="/usr/share/fonts/truetype/dejavu/DejaVuSans"
-    def ft(n,b=False): return ImageFont.truetype(f+("/DejaVuSans-Bold.ttf" if b else "/DejaVuSans.ttf"),n)
-    def center(t,y,n=38,col="#17254a",b=False):
-        d.text((540,y),t,fill=col,font=ft(n,b),anchor="ma")
-    d.rounded_rectangle((80,80,1000,184),24,fill="#173c78")
-    center("IELTS Academic Writing Task 1",152,43,"white",True)
-    center("IELTS WINNERS",235,38,"#173c78",True)
-    d.rounded_rectangle((135,280,945,400),24,fill="#fbea86")
-    center("Examiner's Margin",364,62,"#242339",True)
-    center("Household Expenditure",455,43,"#382751",True)
-    x=[50,320,490,660,840,1030]; y=540;dy=86
-    rows=[["Category","Canada","Japan","Mexico","Germany"],["Housing","28%","24%","20%","26%"],["Food","16%","18%","24%","17%"],["Transport","12%","10%","14%","12%"],["Others","14%","48%","42%","45%"]]
-    for a in x: d.line((a,y,a,y+5*dy),fill="#507083",width=4)
-    for j in range(6):d.line((x[0],y+j*dy,x[-1],y+j*dy),fill="#507083",width=4)
-    for j,row in enumerate(rows):
-        for i,s in enumerate(row):
-            d.text(((x[i]+x[i+1])//2,y+j*dy+dy//2),s,font=ft(26 if i else 29,True),fill="#172438",anchor="mm")
-    center("How to analyse and compare",1075,46,"#2b2443",True)
-    center("data in a 4-paragraph",1145,45,"#2b2443",True)
-    center("Task 1 response",1215,45,"#2b2443",True)
-    d.rounded_rectangle((90,1310,990,1765),25,outline="#527578",width=4)
-    center("In this lesson, you will learn:",1380,38,"#182e3a",True)
-    for j,s in enumerate(["Identify key comparisons","Select important figures","Structure a four-paragraph report","Use effective vocabulary","Write a strong overview"]):
-        d.text((136,1445+j*63),"✓  "+s,font=ft(30),fill="#246a55")
-    center("Let's break it down step by step!",1840,35,"#262947",True)
-    path.parent.mkdir(parents=True,exist_ok=True)
-    im.save(path)
-
-async def speak(script,mp3,voice):
+    # The demo is intentionally distinct from the user's original image.
+    im=Image.new("RGB",(750,1334),"#fffdf5");d=ImageDraw.Draw(im)
+    f="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    def title(t,y,sz=28):d.text((375,y),t,font=ImageFont.truetype(f,sz),anchor="ma",fill="#19315b")
+    title("IELTS WINNERS",110,36);title("Examiner's Margin",230,42)
+    title("Household Expenditure",310,29)
+    for i,t in enumerate(["Canada   Japan   Mexico   Germany","Housing   28%   24%   20%   26%","Food        16%   18%   24%   17%","Transport   12%   10%   14%   12%","Others      14%   48%   42%   45%"]):
+        title(t,400+i*68,23)
+    title("A four-paragraph Task 1 report",840,29)
+    for i,t in enumerate(["Identify comparisons","Select key figures","Structure a report","Use useful vocabulary"]):title(t,945+i*75,27)
+    path.parent.mkdir(parents=True,exist_ok=True);im.save(path)
+async def speech(text,path):
     import edge_tts
-    await edge_tts.Communicate(script,voice,rate="-5%").save(str(mp3))
-
-def main():
-    p=argparse.ArgumentParser()
-    p.add_argument("--voice",default="en-US-AndrewNeural")
-    args=p.parse_args()
-    source=ROOT/"inputs/examiners-margin.png"
-    if not source.exists():
+    await edge_tts.Communicate(text,VOICE,rate="-5%").save(str(path))
+async def run():
+    OUT.mkdir(exist_ok=True)
+    data=json.loads((ROOT/"examples/examiners-margin.json").read_text())
+    original=ROOT/"inputs/examiners-margin.png"
+    if original.exists():
+        source=original
+    else:
         source=ROOT/"inputs/demo-preview.png";demo(source)
-        print("WARNING: Original slide missing. Using preview recreation instead.")
-    out=ROOT/"dist";out.mkdir(exist_ok=True)
-    words=json.loads((ROOT/"examples/examiners-margin.json").read_text())["slides"][0]["narration"]
-    audio=out/"andrew-us.mp3"
-    asyncio.run(speak(words,audio,args.voice))
-    if not audio.exists() or audio.stat().st_size<1000:raise RuntimeError("TTS audio was not generated")
-    raw=subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(audio)],text=True)
-    duration=float(raw.strip())+.8
-    with Image.open(source) as im:
-        background=Image.new("RGB",(1080,1920),"white")
-        fitted=ImageOps.contain(im.convert("RGB"),(1080,1920),Image.Resampling.LANCZOS)
-        background.paste(fitted,((1080-fitted.width)//2,(1920-fitted.height)//2))
-        background.save(out/"frame.png")
-    output=out/"ielts-examiners-margin-andrew-us.mp4"
-    subprocess.run(["ffmpeg","-y","-loglevel","error","-loop","1","-framerate","24","-i",str(out/"frame.png"),"-i",str(audio),"-af","apad","-t",str(duration),"-c:v","libx264","-preset","veryfast","-crf","23","-pix_fmt","yuv420p","-r","24","-c:a","aac","-b:a","160k","-movflags","+faststart",str(output)],check=True)
-    (out/"manifest.json").write_text(json.dumps({"voice":args.voice,"source":str(source.relative_to(ROOT)),"original_image_used":source.name=="examiners-margin.png","duration_seconds":duration},indent=2))
-    print("Rendered:",output)
-if __name__=="__main__":main()
+        print("WARNING: Original PNG not found. Rendering preview artwork. Upload inputs/examiners-margin.png for final version.")
+    segments=[]
+    for i,scene in enumerate(data["scenes"]):
+        audio=OUT/f"voice-{i:02d}.mp3"
+        await speech(scene["narration"],audio)
+        if not audio.exists() or audio.stat().st_size < 1000:
+            raise RuntimeError(f"Andrew US narration missing for scene {i}")
+        dur=probe(audio)+float(scene.get("pause",0.45))
+        visual=compose(source,scene["focus"],i)
+        output=OUT/f"segment-{i:02d}.mp4"
+        frames=math.ceil(dur*24)
+        # Every segment is paced by the actual synthesized spoken duration.
+        command(["ffmpeg","-hide_banner","-loglevel","error","-y","-loop","1","-framerate","24","-i",str(visual),"-i",str(audio),"-vf","zoompan=z='min(zoom+0.00007,1.035)':d=1:s=1080x1920:fps=24,format=yuv420p","-frames:v",str(frames),"-af","apad","-t",str(frames/24),"-c:v","libx264","-preset","veryfast","-crf","24","-r","24","-c:a","aac","-b:a","160k","-ar","44100","-ac","2",str(output)])
+        segments.append(output)
+    manifest=OUT/"concat.txt"
+    manifest.write_text("".join("file '"+str(p.resolve()).replace("'","")+"'\n" for p in segments))
+    final=OUT/"IELTS-Examiners-Margin-Andrew-US.mp4"
+    command(["ffmpeg","-hide_banner","-loglevel","error","-y","-f","concat","-safe","0","-i",str(manifest),"-c","copy","-movflags","+faststart",str(final)])
+    (OUT/"render-manifest.json").write_text(json.dumps({"voice":VOICE,"original_slide":source==original,"scenes":len(segments),"seconds":probe(final),"output":final.name},indent=2))
+    print("SUCCESS",final,"seconds",probe(final),"original artwork used:",source==original)
+if __name__=="__main__":asyncio.run(run())
