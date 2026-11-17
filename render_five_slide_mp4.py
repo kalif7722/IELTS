@@ -10,7 +10,7 @@ async def say(words,out):
     if not out.is_file() or out.stat().st_size < 1000: raise RuntimeError("Andrew US audio missing")
 async def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--source",default="inputs/IELTS-5-slide-original.mp4")
+    ap.add_argument("--source",default="inputs/WhatsApp Video 2026-11-17 at 2.39.16 PM(2).mp4")
     ap.add_argument("--script",default="examples/ielts-five-slide-voice.json")
     ap.add_argument("--output",default="dist/IELTS-5-Slides-Andrew-US.mp4")
     ap.add_argument("--verify-only",action="store_true")
