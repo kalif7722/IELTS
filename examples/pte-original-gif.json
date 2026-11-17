@@ -1,0 +1,42 @@
+{
+  "source": "inputs/pte read aloud.zip",
+  "zip_sha256": "aa1f5145f5784d91e42ab3498cc546e8c754aa6b37de4e49e81c64c9ebd744d2",
+  "gif_sha256": "d0ddf314d9c6f9885f0687449c3666e7fd22cc3821476b101d13db3a4beb46c0",
+  "voice": "en-US-AndrewNeural",
+  "expected_frame_count": 7,
+  "expected_resolution": [
+    864,
+    1536
+  ],
+  "maximum_duration": 179,
+  "scenes": [
+    {
+      "title": "Introduction — stop reading word by word",
+      "narration": "P T E Academic Read Aloud. Stop reading word by word! This lesson introduces five steps to improve fluency, pronunciation, and reading skills. Preview challenging words. Chunk long sentences. Stress important content words. Connect words naturally. And finish each sentence at a steady pace, with a clear final phrase."
+    },
+    {
+      "title": "Step 1 — Preview",
+      "narration": "Step one: Preview. Before speaking, identify difficult words. In this sentence, notice bioluminescence, organisms, and illumination. Prepare their pronunciation before you read. Spotting unfamiliar words early helps you avoid hesitation and maintain a confident, smooth delivery."
+    },
+    {
+      "title": "Step 2 — Chunk",
+      "narration": "Step two: Chunk. Divide the sentence into meaningful phrases. Follow the coloured sections: the phenomenon of bioluminescence; observed in certain marine organisms; enables them to produce light; through chemical reactions; without relying on an external source; of illumination. Pause briefly at natural boundaries, rather than after every word."
+    },
+    {
+      "title": "Step 3 — Stress",
+      "narration": "Step three: Stress. Emphasise important content words, not every word. Look at the highlighted terms: phenomenon, bioluminescence, organisms, produce light, chemical reactions, and illumination. These words carry the key ideas. Give them slightly more emphasis while keeping the smaller connecting words light and natural."
+    },
+    {
+      "title": "Step 4 — Connect",
+      "narration": "Step four: Connect. Link words naturally instead of sounding robotic. Follow the blue highlighted groups, which show words that belong together. Read smoothly within each phrase and pause only where the meaning calls for it. Aim for a clear, flowing, conversational rhythm."
+    },
+    {
+      "title": "Step 5 — Finish",
+      "narration": "Step five: Finish. Maintain a steady pace until the final word. Do not rush the ending, and do not lose volume or stop abruptly. In the example, complete the final phrase, external source of illumination, clearly. Keep pronunciation accurate and finish with control."
+    },
+    {
+      "title": "Practice — five difficult scientific sentences",
+      "narration": "Now practise with five scientific sentences. They include challenging words from bioluminescence, nanotechnology, photosynthetic efficiency, neuroplasticity, and thermodynamics. For each sentence, preview the vocabulary, chunk the phrases, stress key words, connect naturally, and finish clearly. Save this reel and practise the method with every Read Aloud attempt."
+    }
+  ]
+}
