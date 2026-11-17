@@ -1,0 +1,37 @@
+name: Render 5-Slide IELTS Instagram Reel (Andrew US)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'inputs/IELTS-5-slide-original.mp4'
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Andrew US voice and FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install edge-tts
+      - name: Validate source footage and exact frames
+        run: python render_five_slide_mp4.py --verify-only
+      - name: Generate Andrew US voice and sync original frames
+        run: python render_five_slide_mp4.py
+      - name: Deliver MP4 and timing QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: IELTS-5-Slides-Andrew-US-Reel
+          path: |
+            dist/IELTS-5-Slides-Andrew-US.mp4
+            dist/render-manifest.json
+          retention-days: 30
+          if-no-files-found: warn
