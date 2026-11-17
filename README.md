@@ -1,13 +1,18 @@
-# IELTS Winners — Andrew US visual-first reel renderer
+# IELTS Winners — Original GIF + Andrew US voice
 
-This GitHub Actions workflow produces a narrated **1080 × 1920 MP4** with Microsoft **en-US-AndrewNeural** voice (via Edge TTS), plus individual audio segments.
+This pipeline narrates **your supplied, unmodified GIF** using Microsoft `en-US-AndrewNeural`. It does **not** generate replacement slides, add zooms, highlighting, captions, overlays, or transitions.
 
-## Use the original artwork
-Upload your current slide to **`inputs/examiners-margin.png`** in this repository. Until this image exists, the renderer deliberately outputs a **preview recreation**, not your original picture. Uploaded GIFs require frame extraction and scene timing support in a subsequent iteration; the current input is a PNG.
+## Prepare the source
+Upload exactly one original GIF to the repository's `inputs/` folder, e.g. `inputs/lesson.gif`. PNG or WebP still images are also accepted, but they have no existing animation to preserve.
 
-## Rendering
-Push `inputs/examiners-margin.png`, or navigate to **Actions → Render IELTS Andrew US Reel → Run workflow**. The video should appear in **Artifacts → ielts-andrew-us-reel** once the run succeeds.
+The renderer **never** makes placeholder artwork. If no input is uploaded, the job fails with a clear message.
 
-The narration segments and highlighted portions of the visual are stored in [examples/examiners-margin.json](examples/examiners-margin.json). Each segment's screen duration is automatically measured from its Andrew-generated MP3, so visuals and speech stay aligned.
+## Narration
+Edit `examples/examiners-margin.json` with narration corresponding to your uploaded GIF. For existing GIF slides, keep the narration in the same order as the displayed content. The current example narration explains the previously supplied Examiner's Margin introductory image.
 
-Edge TTS is an unofficial public endpoint; synthesis can sometimes fail due to service connectivity. The workflow fails instead of substituting an unwanted voice.
+## Run
+Go to **Actions → Render IELTS Andrew US Reel → Run workflow**, or push the input. Download the MP4 and Andrew MP3 from the `ielts-andrew-us-reel` artifact.
+
+GIF frames and transitions are preserved. The duration of each original frame is scaled **proportionally** to make the full GIF last as long as the narration. This changes playback speed but not frame content, order or animation. No other edits are made. If exact original timing is required instead, narration must be written to fit the existing GIF duration.
+
+The voice synthesis service is an unofficial Edge TTS endpoint and can occasionally fail. No substitute voice will be used.
